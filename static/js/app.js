@@ -1,5 +1,12 @@
 //Step 1 ... populate the dropdown option for
 // user to pick the test id
+//d3.json("data/samples.json").then(function(fileData) {
+ // console.log(fileData);
+ // var allData = fileData;
+//}).error(function(err) {
+    // console.log("failed: ", err);
+   // });
+var plot_results = {};
 function init() {
   d3.json("data/samples.json").then(function(fileData) {
      console.log(fileData);
@@ -26,21 +33,44 @@ function init() {
     d3.json("data/samples.json").then(function(fileData) {
       var allData = fileData;
       var metaData = allData.metadata;
+      var samplesData = allData.samples;
       // Apply filter on json metadata
       console.log(metaData);
       console.log(inputSampleID);
+      //console.log(samplesData);
     
-        filteredData = metaData.filter(data => data.id == inputSampleID) 
+      //Filter the
+    filteredDemo = metaData.filter(data => data.id == inputSampleID) 
+      // Filter the Sample data
+     filteredSamples = samplesData.filter(data => data.id == inputSampleID)
     // index = 0 for id in the json metadata
-    var inputSampleDemo = filteredData[0]
+    var inputDemo = filteredDemo[0]
 
+    var inputSamples = filteredSamples[0]
+    //console.log(inputSamples);
+    
+
+    // Get the sample data from filteredSamples
+    var sample_values  = inputSamples.sample_values;
+    var sample_otu_ids = inputSamples.otu_ids;
+    var sampe_labels   =   inputSamples.otu_labels;
+    plot_results = {
+      values:sample_values,
+      labels: sampe_labels,
+      ids: sample_otu_ids,
+    };
+    console.log(plot_results);
+    
         var   demographic = d3.select("#sample-metadata");
-        Object.entries(inputSampleDemo ).forEach(function([key, value]) {
+        Object.entries(inputDemo ).forEach(function([key, value]) {
           console.log(key, value);
           demographic.append("h6").text(`${key}:${value}`);
         });
+
+      
       });
     }
+  
   
 
 
