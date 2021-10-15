@@ -6,7 +6,7 @@
 //}).error(function(err) {
     // console.log("failed: ", err);
    // });
-var plot_results = {};
+//var plot_results = {};
 function init() {
   d3.json("data/samples.json").then(function(fileData) {
      console.log(fileData);
@@ -23,13 +23,13 @@ function init() {
       .text(names)  // DataSet 1
       .property("value",names) ;//option value 
      } );
-     demographic_info(940)
+     extract_sampledata(940)
     })
   }
 
   //populate the Demographic Info
   // information is in metadata
-  function demographic_info(inputSampleID) {
+  function extract_sampledata(inputSampleID) {
     d3.json("data/samples.json").then(function(fileData) {
       var allData = fileData;
       var metaData = allData.metadata;
@@ -51,15 +51,21 @@ function init() {
     
 
     // Get the sample data from filteredSamples
-    var sample_values  = inputSamples.sample_values;
-    var sample_otu_ids = inputSamples.otu_ids;
-    var sampe_labels   =   inputSamples.otu_labels;
-    plot_results = {
+    var sample_values  = inputSamples.sample_values.slice(0,10).reverse();
+
+    var sample_otu_ids = inputSamples.otu_ids.slice(0,10).reverse().map(d => `OTU ${d}`)
+    //var sample_otu_ids = inputSamples.otu_ids.slice(0,10).reverse()
+
+    //var sample_labels   =   inputSamples.otu_labels.slice(0,10).reverse().map(d => `OTU ${d}`)
+    var sample_labels   =   inputSamples.otu_labels.slice(0,10)
+
+    
+    var plot_results = {
       values:sample_values,
-      labels: sampe_labels,
+      labels: sample_labels,
       ids: sample_otu_ids,
     };
-    console.log(plot_results);
+    //console.log(plot_results);
     
         var   demographic = d3.select("#sample-metadata");
         Object.entries(inputDemo ).forEach(function([key, value]) {
@@ -67,13 +73,49 @@ function init() {
           demographic.append("h6").text(`${key}:${value}`);
         });
 
+    buildChart(plot_results)
       
-      });
+  //  var trace = {
+        //  x: sample_values,
+       //   y: sample_otu_ids,
+       //   type: "bar"
+       // };
+     //// 
+   //     var data = [trace];
+       // Plotly.newPlot("bar-plot", data)
+     });
+    
     }
-  
-  
+function buildChart(sampleData){
+console.log(sampleData);
+    // Create  trace.
+  var trace = {
+    x: sampleData.values,
+    y: sampleData.ids ,
+    type: "bar",
+    orientation:"h",
+    mode:"makers",
+    text:sampleData.sample_labels,
+  };
 
+  var barLayout = {
+    title: "The top 10 OTUs found.",
+    height:550,
+    width:375
+  //  margin:{
+     // l: 100,
+   //   r: 100,
+   //   t: 100,
+   //   b: 100
+   // }
+  };
 
+  var data = [trace];
+  console.log(trace);
+  Plotly.newPlot("bar", data,barLayout)
+  };
+
+ 
 
   init() 
 
