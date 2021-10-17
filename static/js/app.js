@@ -21,7 +21,7 @@ function init() {
      dataNames.forEach(function (names){
       dropdowntestid.append("option")
       .text(names)  // DataSet 1
-      .property("value",names) ;//option value 
+      .property("value",names) ;//option value select id = value = ""
      } );
      extract_sampledata(940)
     })
@@ -59,21 +59,33 @@ function init() {
     //var sample_labels   =   inputSamples.otu_labels.slice(0,10).reverse().map(d => `OTU ${d}`)
     var sample_labels   =   inputSamples.otu_labels.slice(0,10)
 
-    
-    var plot_results = {
+    var sample_otu_ids_buuble = inputSamples.otu_ids
+
+
+    // Values to plot the bar chart
+    var plot_bar_chart = {
       values:sample_values,
       labels: sample_labels,
       ids: sample_otu_ids,
     };
+
+    var plot_bubble_chart = {
+      values:inputSamples.sample_values,
+      labels:  inputSamples.otu_labels,
+      ids: sample_otu_ids_buuble ,
+    };
     //console.log(plot_results);
-    
+    // Extract demographic  data from the is in the meta data
+
         var   demographic = d3.select("#sample-metadata");
+        demographic.html("");
         Object.entries(inputDemo ).forEach(function([key, value]) {
           console.log(key, value);
           demographic.append("h6").text(`${key}:${value}`);
         });
 
-    buildChart(plot_results)
+    buildBarChart(plot_bar_chart)
+    buildBubbleChart(plot_bubble_chart)
       
   //  var trace = {
         //  x: sample_values,
@@ -86,7 +98,7 @@ function init() {
      });
     
     }
-function buildChart(sampleData){
+function buildBarChart(sampleData){
 console.log(sampleData);
     // Create  trace.
   var trace = {
@@ -115,9 +127,47 @@ console.log(sampleData);
   Plotly.newPlot("bar", data,barLayout)
   };
 
- 
+function buildBubbleChart(sampleData){
+    console.log(sampleData);
+        // Create  trace.
+
+      
+      var trace1 = {
+        y: sampleData.values,
+        x: sampleData.ids ,
+        type: "bubble",
+        mode:"markers",
+        text:sampleData.sample_labels,
+        marker: {
+          size: sampleData.values,
+          color:sampleData.ids
+        }
+      };
+    
+      var bubbleLayout = {
+        title: "OTU IDs.",
+        height:550,
+        width:1200,
+       margin:{t:0}
+     
+      };
+      
+    
+      var bdata = [trace1];
+      console.log(trace1);
+      Plotly.newPlot("bubble", bdata,bubbleLayout)
+      };
 
   init() 
+  d3.select("#selDataset").on("change",SubjectID_Changed)
+
+  function SubjectID_Changed() {
+    var newSampleData = d3.select("#selDataset").node().value;
+    extract_sampledata(newSampleData);
+
+  }
+
+  
 
     //}).error(function(err) {
     //      console.log("failed: ", err);
