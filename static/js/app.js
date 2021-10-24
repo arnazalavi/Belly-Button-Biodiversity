@@ -1,12 +1,4 @@
-//Step 1 ... populate the dropdown option for
-// user to pick the test id
-//d3.json("data/samples.json").then(function(fileData) {
- // console.log(fileData);
- // var allData = fileData;
-//}).error(function(err) {
-    // console.log("failed: ", err);
-   // });
-//var plot_results = {};
+
 function init() {
   d3.json("data/samples.json").then(function(fileData) {
      console.log(fileData);
@@ -86,15 +78,7 @@ function init() {
 
     buildBarChart(plot_bar_chart)
     buildBubbleChart(plot_bubble_chart)
-      
-  //  var trace = {
-        //  x: sample_values,
-       //   y: sample_otu_ids,
-       //   type: "bar"
-       // };
-     //// 
-   //     var data = [trace];
-       // Plotly.newPlot("bar-plot", data)
+
      });
     
     }
@@ -166,44 +150,3 @@ function buildBubbleChart(sampleData){
 
   
 
-    //}).error(function(err) {
-    //      console.log("failed: ", err);
-     // });
-    //}
-    //}
-    // Test Subject ID number is empty
-    // Need to fill using the Json data
-    //Json data = jsonData.names
-    //var dropdowntestid = d3.select("selDataset")
-    // Need actual code to take the data from Json and appened to the html
-    //dropdown option
-    // Second function to populate the names
-    //TestIDs = jsonData.names
-   // TestIDs.forEach(function (names){
-   // dropdowntestid.append("option")
-    //.text(names)  // DataSet 1
-    //property("value",names) //option value 
-    
-    
-    // ..... dropdowntestid ....property("value",name)   ..for each name
-    // 
-    //}
-
-// Step 2 .... 
-//Filter  the samples based on the user input
-// filter data.samples.filter(x)  => x.id == (user selected Id)
-// This would be my test data or suppose 
-
-// dropDownotion.append("option")
-
-// testdata.otu_ids --- index 1
-// testdata.names --- index = 0
-// testdata.sample_values --- index 2
-//testdata.otu_lables --- index 3
-
-//Question only one pick or more 
-// Filter 2 on meta data
-
-//data.metadata.filter(x)  => x.id == (user selected Id)
-//Question index{0] .......} what to pick ?????
-//id="selDataset"
