@@ -111,15 +111,10 @@ console.log(sampleData);
   };
 
   var barLayout = {
-    title: "The top 10 OTUs found.",
+    title: "Top 10 Microbial Species Found .",
     height:550,
     width:375
-  //  margin:{
-     // l: 100,
-   //   r: 100,
-   //   t: 100,
-   //   b: 100
-   // }
+ 
   };
 
   var data = [trace];
@@ -145,8 +140,10 @@ function buildBubbleChart(sampleData){
       };
     
       var bubbleLayout = {
-        title: "OTU IDs.",
-        height:550,
+        //title: "OTU IDs.",
+        title: "Bacteria Cultures Per Sample",
+        xaxis: { title: "OTU ID"},
+        height:500,
         width:1200,
        margin:{t:0}
      
